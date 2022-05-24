@@ -1,8 +1,8 @@
-import ChittersDAO from "../dao/chittersDAO";
+import ChittersDAO from "../dao/chittersDAO.js";
 
 export default class ChittersController {
   static async apiGetChitters (req,res, next) {
-    const chittersPerPage = re.query.chittersPerPage ? parseInt(req.query.chittersPerPage, 10) : 20;
+    const chittersPerPage = req.query.chittersPerPage ? parseInt(req.query.chittersPerPage, 10) : 20;
     const page = req.query.page ? parseInt(req.query.page, 10) : 0;
     
     let filters = {}
