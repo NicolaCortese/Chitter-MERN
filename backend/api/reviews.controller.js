@@ -1,4 +1,3 @@
-//remember to import the reviews DAO!!
 import ReviewsDAO from "../dao/reviewsDAO.js"
 
 export default class ReviewsController {
@@ -55,7 +54,7 @@ export default class ReviewsController {
 
   static async apiDeleteReview(req, res, next) {
     try {
-      const reviewId = req.query._id
+      const reviewId = req.query.id
       const userId = req.body.user_id
       console.log(reviewId)
       const reviewResponse = await ReviewsDAO.deleteReview(
