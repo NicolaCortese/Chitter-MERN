@@ -1,23 +1,23 @@
-let chitters
+let restaurants
 
-export default class ChittersDAO {
+export default class RestaurantsDAO {
   static async injectDB(conn) {
-    if (chitters) {
+    if (restaurants) {
       return
     }
     try {
-      chitters = await conn.db(process.env.CHITTERS_NS).collection("planets")
+      restaurants = await conn.db(process.env.RESTREVIEWS_NS).collection("restaurants")
     } catch (e) {
       console.error(
-        `unable to establish a collection handle in chittersDAO: ${e}`,
+        `unable to establish a collection handle in restaurantsDAO: ${e}`,
       )
     }
   }
 
-  static async getChitters({
+  static async getRestaurants({
     filters = null,
     page = 0,
-    chittersPerPage = 20,
+    restaurantsPerPage = 20,
   } = {}) {
     let query
     if (filters) {
@@ -33,26 +33,26 @@ export default class ChittersDAO {
     let cursor
 
     try{
-      cursor = await chitters
+      cursor = await restaurants
       .find(query)
     } catch (e) {
       console.error(`Unable to issue find command ${e}`)
-      return { chittersList: [], totalNumChitters: 0}
+      return { restaurantsList: [], totalNumRestaurants: 0}
     }
 
-    const displayCursor = cursor.limit(chittersPerPage).skip(chittersPerPage * page)
+    const displayCursor = cursor.limit(restaurantsPerPage).skip(restaurantsPerPage * page)
   
 
     try {
-      const chittersList = await displayCursor.toArray()
-      const totalNumChitters = await chitters.countDocuments(query)
+      const restaurantsList = await displayCursor.toArray()
+      const totalNumRestaurants = await restaurants.countDocuments(query)
     
-      return { chittersList, totalNumChitters}
+      return { restaurantsList, totalNumRestaurants}
     } catch (e) {
       console.error(
         `Unable to convert cursor to array or problem counting documents, ${e}`
       )
-      return {chittersList: [], totalNumChitters: 0}
+      return {restaurantsList: [], totalNumRestaurants: 0}
     }
   }
 
